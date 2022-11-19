@@ -8,15 +8,6 @@ def func(x_1: float, x_2: float) -> float:
     return 100 * (x_2 - x_1**2) ** 2 + (1 - x_1) ** 2
 
 
-def fitness(x_1: float, x_2: float):
-    """Evaluate the fitness of the minimization problem."""
-    ans = func(x_1, x_2)
-    if ans == 0:
-        return 9999999
-    else:
-        return 1 / ans
-
-
 def evaluate_generation_fit(generation: typing.List[typing.Tuple[float, float]]):
     # variable that stores all fitness values for a generation
     fitness_of_generation = []
