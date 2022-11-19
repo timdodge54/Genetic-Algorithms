@@ -1,7 +1,5 @@
-import pygad
 import copy
 import typing
-import numpy.random as random
 import numpy as np
 
 
@@ -14,7 +12,7 @@ def fitness(x_1: float, x_2: float):
     """Evaluate the fitness of the minimization problem."""
     ans = func(x_1, x_2)
     if ans == 0:
-        return np.inf
+        return 9999999
     else:
         return 1 / ans
 
@@ -24,13 +22,13 @@ def evaluate_generation_fit(generation: typing.List[typing.Tuple[float, float]])
     fitness_of_generation = []
     for citizen in generation:
         # evaluate the fitness and store
-        fitness_ = fitness(citizen[0], citizen[1])
+        fitness_ = func(citizen[0], citizen[1])
         fitness_of_generation.append(fitness_)
     # sort generation by fitness
     generation_sorted = [x for _, x in sorted(zip(fitness_of_generation, generation))]
     mid = int(len(generation_sorted) / 2)
     # slice save only the most fit
-    preserved_citizens = generation_sorted[mid:]
+    preserved_citizens = generation_sorted[:mid]
     # copy reserved citizens
     new_generation = copy.deepcopy(preserved_citizens)
     # saving first and last citizen to add one more child at the end to keep
@@ -89,13 +87,13 @@ def mutate(population: typing.List[typing.Tuple[float, float]]):
 def evaluate_final_val(
     generation: typing.List[typing.Tuple[float, float]]
 ) -> typing.Tuple[float, float, float]:
-    """Evaluate the most fit value from the final generation"""
+    """Evaluate the most fit value from the final generation."""
     fitness_of_generation = []
     for citizen in generation:
-        fitness_ = fitness(citizen[0], citizen[1])
+        fitness_ = func(citizen[0], citizen[1])
         fitness_of_generation.append(fitness_)
     generation_sorted = [x for _, x in sorted(zip(fitness_of_generation, generation))]
-    final_x_1, final_x_2 = generation_sorted[-1]
+    final_x_1, final_x_2 = generation_sorted[0]
     return (final_x_1, final_x_2, func(final_x_1, final_x_2))
 
 
